@@ -5,11 +5,11 @@ import Index from "@/features/index/Index";
 import { FaSearch } from "react-icons/fa";
 import { IoHomeSharp } from "react-icons/io5";
 import { Input } from "@/components/ui/input";
-import { PokeInfo } from "@/app/types";
+import { PokeAll } from "@/app/types";
 import { hiraToKana } from "@/app/utils";
 
 interface HomeIndex {
-  pokes: PokeInfo[];
+  pokes: PokeAll[];
 }
 
 const HomeIndex = ({ pokes }: HomeIndex) => {

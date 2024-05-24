@@ -1,4 +1,4 @@
-export const typeTranlate = (type: string) => {
+export const typeTranlate = (type: string | undefined) => {
   switch (type) {
     case "normal":
       return (type = "ノーマル");

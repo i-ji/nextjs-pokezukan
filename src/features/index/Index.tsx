@@ -1,17 +1,17 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { PokeInfo } from "@/app/types";
+import { PokeAll } from "@/app/types";
 
 interface Index {
-  pokes: PokeInfo[];
+  pokes: PokeAll[];
 }
 
 const Index = ({ pokes }: Index) => {
   return (
     <>
       <ul className="w-full flex flex-wrap justify-between items-center bg-blue-500">
-        {pokes.map((poke: PokeInfo) => {
+        {pokes.map((poke: PokeAll) => {
           return (
             <li
               key={poke.id}

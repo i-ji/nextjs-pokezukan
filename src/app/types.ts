@@ -1,3 +1,9 @@
+export interface PokeAll {
+  id: number;
+  name: string;
+  img: string;
+}
+
 export type PokeInfo = {
   id: number;
   name: string;
