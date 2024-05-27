@@ -8,7 +8,7 @@ const num = 151;
 
 // 全てのポケモンを取得
 export const getAllPokes = async () => {
-  let pokesInfo = [];
+  let pokesInfo = [] as PokeAll[];
 
   for (let i = 1; i <= num; i++) {
     try {
@@ -36,9 +36,8 @@ export const getAllPokes = async () => {
 
 // 個別のポケモンを取得
 export const getAssignedPoke = async (id: string) => {
-  // 画像、タイプ、高さ、重さを取得
-
   try {
+    // 画像、タイプ、高さ、重さを取得
     const res = await axios.get(`${ENDPOINT}/${id}`);
     const data = res.data;
 

@@ -1,20 +1,14 @@
 import React from "react";
 import Image from "next/image";
-import { getAssignedPoke } from "@/app/api/route";
 import { typeTranlate } from "@/app/utils";
-import { notFound } from "next/navigation";
+import { PokeInfo } from "@/app/types";
 
 interface Detail {
   id: string;
+  poke: PokeInfo;
 }
 
-const Detail = async ({ id }: Detail) => {
-  const poke = await getAssignedPoke(id);
-
-  if (poke === undefined) {
-    notFound();
-  }
-
+const Detail = async ({ poke }: Detail) => {
   return (
     <>
       <div className="flex items-center sm:gap-10 w-full">

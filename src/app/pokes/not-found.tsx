@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function UserNotFoundPage() {
   return (
-    <div className="text-white max-w-[800px] mx-auto mt-[120px]">
+    <div className="text-white max-w-[768px] mx-auto mt-[120px]">
       <h1 className="text-lg border-b pb-1 mb-1">Error!</h1>
       <p>Pokemon is not found!</p>
       <p className="mt-4">

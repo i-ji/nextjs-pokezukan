@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Index from "@/features/index/Index";
 import { FaSearch } from "react-icons/fa";
 import { IoHomeSharp } from "react-icons/io5";
 import { Input } from "@/components/ui/input";
 import { PokeAll } from "@/app/types";
 import { hiraToKana } from "@/app/utils";
+import Header from "@/components/header/Header";
 
 interface HomeIndex {
   pokes: PokeAll[];
@@ -14,11 +15,22 @@ interface HomeIndex {
 
 const HomeIndex = ({ pokes }: HomeIndex) => {
   const [isSearch, setIsSearch] = useState(false);
+
+  // フォーカスを当てる
+  const inputRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current!.focus();
+    }
+  }, [isSearch]);
+
   // アイコンの切り替え
   const toggleSearch = (bool: boolean) => {
     if (bool) {
       setIsSearch(true);
     } else {
+      setInputText("");
+      setApplyPoke(pokes);
       setIsSearch(false);
     }
   };
@@ -37,32 +49,44 @@ const HomeIndex = ({ pokes }: HomeIndex) => {
     );
   };
 
+  //　一番上に戻る処理
+  const toTop = () => {
+    window.scroll({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <>
-      <div className="font-bold text-3xl my-10 flex items-center justify-center gap-5">
-        {isSearch ? (
-          <Input
-            className="border border-white rounded-full w-[46%] text-white"
-            value={inputText}
-            onChange={(e) => searchPoke(e.target.value)}
-          />
-        ) : (
-          <h1 className="text-red-500 leading-10">ポケモン図鑑 カントー地方</h1>
-        )}
+      <div className="font-bold text-2xl sm:text-3xl w-full">
+        <div className=" flex items-center justify-center gap-5 fixed top-0 bg-black max-w-[768px] py-10 w-full">
+          {isSearch ? (
+            <Input
+              className="border border-white rounded-full w-[293px] sm:w-[367px] text-white"
+              value={inputText}
+              onChange={(e) => searchPoke(e.target.value)}
+              ref={inputRef}
+            />
+          ) : (
+            <div className="cursor-pointer" onClick={toTop}>
+              <Header />
+            </div>
+          )}
 
-        {isSearch ? (
-          <IoHomeSharp
-            className="text-white font-normal cursor-pointer"
-            onClick={() => toggleSearch(false)}
-          />
-        ) : (
-          <FaSearch
-            className="text-white font-normal cursor-pointer"
-            onClick={() => toggleSearch(true)}
-          />
-        )}
+          {isSearch ? (
+            <IoHomeSharp
+              className="text-white font-normal cursor-pointer"
+              onClick={() => toggleSearch(false)}
+            />
+          ) : (
+            <FaSearch
+              className="text-white font-normal cursor-pointer"
+              onClick={() => toggleSearch(true)}
+            />
+          )}
+        </div>
       </div>
-
       <Index pokes={applyPoke} />
     </>
   );

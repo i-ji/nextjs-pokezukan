@@ -1,9 +1,9 @@
 import React from "react";
 import Detail from "@/features/show/Detail";
 import BackIndex from "@/components/backIndex/BackIndex";
-import LoadingDetail from "@/features/show/LoadingDetail";
+import { getAssignedPoke } from "@/app/api/api";
+import Header from "@/components/header/Header";
 import { notFound } from "next/navigation";
-import LoadingIndex from "@/features/index/LoadingIndex";
 
 interface Props {
   params: {
@@ -11,20 +11,39 @@ interface Props {
   };
 }
 
-const Poke = (props: Props) => {
-  const id = props.params.pokeId;
+// 個別のポケモンを取得
+const getPoke = async (id: string) => {
+  const poke = await getAssignedPoke(id);
+  if (poke === undefined || poke.id > 151) {
+    notFound();
+  }
+  return poke;
+};
+
+// タイトルの設定
+export async function generateMetadata(props: Props) {
+  const poke = await getPoke(props.params.pokeId);
+
+  return {
+    title: `ポケモン図鑑 - ${poke.name}`,
+  };
+}
+
+//
+const Poke = async (props: Props) => {
+  const poke = await getPoke(props.params.pokeId);
 
   return (
     <>
-      <div className="text-white max-w-[800px] mx-auto mt-[120px] bg-blue-500">
-        <Detail id={id} />
+      <div className="font-bold text-2xl sm:text-3xl my-10 text-center">
+        <Header />
       </div>
 
-      <BackIndex id={id} />
+      <div className="text-white max-w-[768px] mx-auto bg-blue-500">
+        <Detail id={String(poke.id)} poke={poke} />
+      </div>
 
-      {/* <div className="text-white max-w-[800px] mx-auto mt-[116px] bg-blue-500">
-        <LoadingIndex />
-      </div> */}
+      <BackIndex id={String(poke.id)} />
     </>
   );
 };
