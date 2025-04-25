@@ -1,19 +1,25 @@
 import React from "react";
 import Detail from "@/features/show/Detail";
 import BackIndex from "@/components/backIndex/BackIndex";
-import { getAssignedPoke } from "@/app/api/api";
+import { getAllPokes, getAssignedPoke } from "@/app/api/api";
 import Header from "@/components/header/Header";
 import { notFound } from "next/navigation";
 
-interface Props {
-  params: {
-    pokeId: string;
-  };
+interface PokeType {
+  params: Promise<{ pokeId: string }>;
+}
+
+export async function generateStaticParams() {
+  const pokes = await getAllPokes();
+
+  return pokes.map((poke) => ({
+    pokeId: String(poke.id),
+  }));
 }
 
 // 個別のポケモンを取得
-const getPoke = async (id: string) => {
-  const poke = await getAssignedPoke(id);
+const getPoke = async (params: { pokeId: string }) => {
+  const poke = await getAssignedPoke(params.pokeId);
   if (poke === undefined || poke.id > 151) {
     notFound();
   }
@@ -21,17 +27,18 @@ const getPoke = async (id: string) => {
 };
 
 // タイトルの設定
-export async function generateMetadata(props: Props) {
-  const poke = await getPoke(props.params.pokeId);
+export async function generateMetadata({ params }: PokeType) {
+  const resolvedParams = await params;
+  const poke = await getPoke(resolvedParams);
 
   return {
     title: `ポケモン図鑑 - ${poke.name}`,
   };
 }
 
-//
-const Poke = async (props: Props) => {
-  const poke = await getPoke(props.params.pokeId);
+export default async function Page({ params }: PokeType) {
+  const resolvedParams = await params;
+  const poke = await getPoke(resolvedParams);
 
   return (
     <>
@@ -46,6 +53,4 @@ const Poke = async (props: Props) => {
       <BackIndex id={String(poke.id)} />
     </>
   );
-};
-
-export default Poke;
+}
