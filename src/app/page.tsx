@@ -1,4 +1,3 @@
-import Image from "next/image";
 import HomeIndex from "@/features/index/HomeIndex";
 import { getAllPokes } from "@/app/api/api";
 

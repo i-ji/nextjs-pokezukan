@@ -1,61 +1,21 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
 import Index from "@/features/index/Index";
+import Header from "@/components/header/Header";
 import { FaSearch } from "react-icons/fa";
 import { IoHomeSharp } from "react-icons/io5";
 import { Input } from "@/components/ui/input";
-import { PokeAll } from "@/app/types";
-import { hiraToKana } from "@/app/utils";
-import Header from "@/components/header/Header";
+import { PokeAll } from "@/utils/types";
+import { toTop } from "@/utils/utils";
+import { useHomeIndexState } from "@/utils/hooks/HomeIndex/useHomeIndexState";
 
 interface HomeIndex {
   pokes: PokeAll[];
 }
 
 const HomeIndex = ({ pokes }: HomeIndex) => {
-  const [isSearch, setIsSearch] = useState(false);
-
-  // フォーカスを当てる
-  const inputRef = useRef<HTMLInputElement>(null);
-  useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current!.focus();
-    }
-  }, [isSearch]);
-
-  // アイコンの切り替え
-  const toggleSearch = (bool: boolean) => {
-    if (bool) {
-      setIsSearch(true);
-    } else {
-      setInputText("");
-      setApplyPoke(pokes);
-      setIsSearch(false);
-    }
-  };
-
-  const [inputText, setInputText] = useState("");
-  const [applyPoke, setApplyPoke] = useState(pokes);
-
-  // 検索の処理
-  const searchPoke = (letter: string) => {
-    setInputText(letter);
-
-    setApplyPoke(
-      pokes.filter((poke) => {
-        return poke.name.includes(hiraToKana(letter));
-      })
-    );
-  };
-
-  //　一番上に戻る処理
-  const toTop = () => {
-    window.scroll({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
+  const { isSearch, inputRef, inputText, applyPoke, searchPoke, toggleSearch } =
+    useHomeIndexState(pokes);
 
   return (
     <>

@@ -1,10 +1,9 @@
 import React from "react";
 import Image from "next/image";
-import { typeTranlate } from "@/app/utils";
-import { PokeInfo } from "@/app/types";
+import { typeTranlate } from "@/utils/utils";
+import { PokeInfo } from "@/utils/types";
 
 interface Detail {
-  id: string;
   poke: PokeInfo;
 }
 

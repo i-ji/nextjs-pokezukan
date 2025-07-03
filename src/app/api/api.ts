@@ -1,5 +1,5 @@
 import axios from "axios";
-import { PokeInfo, PokeAll } from "../types";
+import { PokeInfo, PokeAll } from "../../utils/types";
 
 const ENDPOINT = "https://pokeapi.co/api/v2/pokemon";
 const ENDPOINT_SPECIES = "https://pokeapi.co/api/v2/pokemon-species";

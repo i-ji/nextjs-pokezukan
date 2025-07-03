@@ -47,7 +47,7 @@ export default async function Page({ params }: PokeType) {
       </div>
 
       <div className="text-white max-w-[768px] mx-auto bg-blue-500">
-        <Detail id={String(poke.id)} poke={poke} />
+        <Detail poke={poke} />
       </div>
 
       <BackIndex id={String(poke.id)} />
